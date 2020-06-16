@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        
+        Ola #{LoginBean.usuario.email}
+        <p/>
+        <h1>Cadastro de Projetos</h1>
+        <h:form>
+            Id: <h:inputText value="#{projetoBeans.projeto.id}"/> <br/>
+            Titulo do Projeto: <h:inputText value="#{projetoBeans.projeto.tituloProjeto}"/> <br/>
+            Data de Cadastro: <h:inputText value="#{projetoBeans.projeto.dataCriacao}"/> <br/>
+            Descricao: <h:inputText value="#{projetoBeans.projeto.descricao}"/> <br/>
+            Data de Inicio do projeto: <h:inputText value="#{projetoBeans.projeto.dataInicio}"/> <br/>
+            Data de Termino do projeto: <h:inputText value="#{projetoBeans.projeto.dataTermino}"/> <br/>
+            <h:commandButton value="Cadastrar" action="#{projetoBeans.cadastrar()}"/> 
+            
+       
+        </h:form>
+    </h:body>
+</html>
+

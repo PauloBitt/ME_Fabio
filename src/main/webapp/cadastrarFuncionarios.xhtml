@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <head>
+    </head>
+    <body>
+        <center>
+        <h1>Cadastro De Funcionarios</h1>
+        <p/>
+        <h:form>
+        ID: <h:inputText value="#{funcionarioBean.funcionario.id}"/> <br /><p/>
+        Nome: <h:inputText value="#{funcionarioBean.funcionario.nome}"/> <br /><p/>
+        Salario: <h:inputText value="#{funcionarioBean.funcionario.salario}"/> <br /><p/>
+        RG: <h:inputText value="#{funcionarioBean.funcionario.rg}"/> <br /><p/>
+        CPF: <h:inputText value="#{funcionarioBean.funcionario.cpf}"/> <br /><p/>
+        Cargo: <h:inputText value="#{funcionarioBean.funcionario.cargo}"/> <br /><p/>
+        
+        <h:commandButton value="Cadastrar" action="#{funcionarioBean.cadastrar()}"/><p/>
+        <h:commandButton value="voltar" action="#{funcionarioBean.voltar()}"/>
+        </h:form>
+        </center>
+    </body>
+</html>

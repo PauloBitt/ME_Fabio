@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+        
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:messages />
+            
+            
+            <b:dataTable value="#{funcionarioBean.funcionarios}"  var="funcionario" excel="true" csv="true" pdf="true" print="true">
+                <b:dataTableColumn value="#{funcionario.id}"  label="ID" />
+                <b:dataTableColumn value="#{funcionario.nome}" label="Nome"/>
+                <b:dataTableColumn value="#{funcionario.salario}" label="Salário líquido"/>
+                <b:dataTableColumn value="#{funcionario.rg}" />
+                <b:dataTableColumn value="#{funcionario.cpf}" />
+                <b:dataTableColumn value="#{funcionario.cargo}" order="asc"/>
+                <b:dataTableColumn label="Ações">
+                    <h:form>
+                    <f:facet name="header"> Ações </f:facet>
+                    <h:commandLink action="#{funcionarioBean.excluir(funcionario)}">
+                            Excluir</h:commandLink>
+                    </h:form>
+                </b:dataTableColumn>
+            </b:dataTable>
+            
+            <h:outputText value="Por ID: " />
+            <h:inputText value="#{funcionarioBean.funcionario.id}"/>
+            <h:commandButton value="consultar" action="#{funcionarioBean.consultarPorId(id)}"/>
+            <b:dataTable value="#{funcionarioBean.funcionarioID}" var="funcionario">
+                <b:dataTableColumn value="#{funcionario.id}"/>
+                <b:dataTableColumn value="#{funcionario.nome}"/>
+                <b:dataTableColumn value="#{funcionario.salario}"/>
+                <b:dataTableColumn value="#{funcionario.rg}"/>
+                <b:dataTableColumn value="#{funcionario.cpf}"/>
+                <b:dataTableColumn value="#{funcionario.cargo}"/>
+            </b:dataTable>
+            <h:outputText value="Por Nome: "/>
+            <h:inputText value="#{funcionarioBean.funcionario.nome}"/>
+            <h:commandButton value="Consultar" action="#{funcionarioBean.consultarPorNome(nome)}" />
+            <b:dataTable value="#{funcionarioBean.funcionarioNome}" var="funcionario">
+                <b:dataTableColumn value="#{funcionario.id}" />
+                <b:dataTableColumn value="#{funcionario.nome}" />
+                <b:dataTableColumn value="#{funcionario.salario}" />
+                <b:dataTableColumn value="#{funcionario.rg}" />
+                <b:dataTableColumn value="#{funcionario.cpf}" />
+                <b:dataTableColumn value="#{funcionario.cargo}" />
+
+            </b:dataTable>
+        </h:form>
+    </h:body>
+</html>
