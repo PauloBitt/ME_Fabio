@@ -15,10 +15,34 @@ and open the template in the editor.
         
     </h:head>
     <h:body>
+        <b:jumbotron>
+        <center> <h2>Cadastro De Funcionário</h2>
         <h:form>
             <h:messages />
-            
-            
+            <h:panelGrid columns="2">
+                <h:outputText value="Número ID:"/>
+                <h:inputText value="#{funcionarioBean.funcionario.id}"/>
+                <h:outputText value="Nome:"/>
+                <h:inputText value="#{funcionarioBean.funcionario.nome}"/>
+                <h:outputText value="Salário:"/>
+                <h:inputSecret value="#{funcionarioBean.funcionario.salario}"/>
+                <h:outputText value="RG:"/>
+                <h:inputText value="#{funcionarioBean.funcionario.rg}"/>
+                <h:outputText value="CPF:"/>
+                <h:inputText value="#{funcionarioBean.funcionario.cpf}"/>
+                <h:outputText value="Cargo:"/>
+                <h:inputSecret value="#{funcionarioBean.funcionario.cargo}"/>
+                
+                
+            </h:panelGrid>
+        
+        <h:commandButton value="Atualizar" action="#{funcionarioBean.salvar()}"/><p/>
+        <h:commandButton value="voltar" action="#{funcionarioBean.voltar()}"/>
+        </h:form>
+        </center>
+        
+        <center><h2>O Cadastro Do Funcionario</h2></center>>
+        <h:form>
             <b:dataTable value="#{funcionarioBean.funcionarios}"  var="funcionario" excel="true" csv="true" pdf="true" print="true">
                 <b:dataTableColumn value="#{funcionario.id}"  label="ID" />
                 <b:dataTableColumn value="#{funcionario.nome}" label="Nome"/>
@@ -27,13 +51,18 @@ and open the template in the editor.
                 <b:dataTableColumn value="#{funcionario.cpf}" />
                 <b:dataTableColumn value="#{funcionario.cargo}" order="asc"/>
                 <b:dataTableColumn label="Ações">
-                    <h:form>
                     <f:facet name="header"> Ações </f:facet>
                     <h:commandLink action="#{funcionarioBean.excluir(funcionario)}">
                             Excluir</h:commandLink>
-                    </h:form>
+                    <f:facet name="header"> Ações </f:facet>
+                    <h:commandLink action="#{funcionarioBean.selecionar(funcionario)}">
+                            Selecionar</h:commandLink>
                 </b:dataTableColumn>
             </b:dataTable>
+            
+            
+            <p/>
+            
             
             <h:outputText value="Por ID: " />
             <h:inputText value="#{funcionarioBean.funcionario.id}"/>
@@ -46,6 +75,9 @@ and open the template in the editor.
                 <b:dataTableColumn value="#{funcionario.cpf}"/>
                 <b:dataTableColumn value="#{funcionario.cargo}"/>
             </b:dataTable>
+            
+            <p/>
+            
             <h:outputText value="Por Nome: "/>
             <h:inputText value="#{funcionarioBean.funcionario.nome}"/>
             <h:commandButton value="Consultar" action="#{funcionarioBean.consultarPorNome(nome)}" />
@@ -59,5 +91,7 @@ and open the template in the editor.
 
             </b:dataTable>
         </h:form>
+        
+        </b:jumbotron> 
     </h:body>
 </html>

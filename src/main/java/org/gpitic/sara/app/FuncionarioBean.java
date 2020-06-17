@@ -30,6 +30,11 @@ public class FuncionarioBean {
     /**
      * Creates a new instance of FuncionarioBean
      */
+    
+    public void selecionar(Funcionario funcionario){
+        this.funcionario = funcionario;
+    
+    }
     public FuncionarioBean() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("sqlspu");
         EntityManager em = emf.createEntityManager();
@@ -47,7 +52,7 @@ public class FuncionarioBean {
         query.setParameter("id", funcionario.getId());
         for(Funcionario f: query.getResultList()){
             if(f.getId().equals(funcionario.getId()))
-                retorno = "consultarPorId";
+                retorno = "consultarResultId";
         }
         return retorno;
     }
@@ -104,12 +109,27 @@ public class FuncionarioBean {
         EntityTransaction etx = em.getTransaction();
         
         etx.begin();
+        em.persist(funcionario);
+        etx.commit();
+        em.close();
+        emf.close();
+        funcionario = funcionario;
+        
+        return "consultarFuncionarios";
+        
+    }
+    public String salvar(){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("sqlspu");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction etx = em.getTransaction();
+        
+        etx.begin();
         em.merge(funcionario);
         etx.commit();
         em.close();
         emf.close();
         
-        return "cadastro";
+        return "consultarFuncionarios";
         
     }
     
