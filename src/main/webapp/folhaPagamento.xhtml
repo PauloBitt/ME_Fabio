@@ -7,24 +7,28 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
     <h:head>
         <title>Clinica|Web</title>
     </h:head>
     <h:body>
         <center>
-            <h1>Clinica|Web</h1>
+            <h1>Calcular O Salario Liquido</h1>
             <h:form>
                 <p:messages />
                 <h:panelGrid columns="2">
+                    <h:outputText value="ID: " /> 
+                    <p:inputText value="#{folhaPagamentoBeans.pagamento.id}" required="true"/>
                     <h:outputText value="Salario: " /> 
                     <p:inputText value="#{folhaPagamentoBeans.pagamento.salarioBruto}" required="true" 
-                                 requiredMessage="Insira o salário"/>
+                                 requiredMessage="Insira o salário"/><p/>
+                    <h:commandButton value="Calcular Salario" action="#{folhaPagamentoBeans.CalcularFolhaPagamento()}"/>
+
                     <h:outputText value="INSS: " /> <h:outputText value="#{folhaPagamentoBeans.pagamento.inss}" />
                     <h:outputText value="IRRF: " /> <h:outputText value="#{folhaPagamentoBeans.pagamento.irrf}" /> 
                     <h:outputText value="Salario Líquido: " /><h:outputText value="#{folhaPagamentoBeans.pagamento.salarioLiquido}" />
                 </h:panelGrid>
-                <h:commandButton value="Calcular Salario" action="#{folhaPagamentoBeans.calcularSalario()}"/>
                 <h:commandButton value="Cadastrar" action="#{folhaPagamentoBeans.cadastrar()}"/>
             </h:form>
         </center>

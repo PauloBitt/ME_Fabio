@@ -5,12 +5,15 @@
  */
 package org.gpitic.sara.app;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import org.gpitic.sara.infra.Folhapagamento;
 
 /**
@@ -20,16 +23,34 @@ import org.gpitic.sara.infra.Folhapagamento;
 @ManagedBean
 @RequestScoped
 public class FolhaPagamentoBeans {
-    private Folhapagamento pagamento = new Folhapagamento();
+    Folhapagamento pagamento = new Folhapagamento();
+    List<Folhapagamento> pagamentos = new ArrayList<Folhapagamento>();
     /**
      * Creates a new instance of FolhaPagamentoBeans
      */
     public FolhaPagamentoBeans() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("sqlspu");
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("select p from Folhapagamento p", Folhapagamento.class);
+        this.pagamentos = q.getResultList();
         
         
     }
-    
+    public void CalcularFolhaPagamento() {
+        pagamento = new Folhapagamento(pagamento.getId(), pagamento.getSalarioBruto());
+        pagamento.calcularInss();
+        pagamento.calcularIrrf();
+        pagamento.calcularSalarioLiquido();
+        pagamento.setId(pagamento.getId());
+        pagamento.setInss(pagamento.getInss());
+        pagamento.setIrrf(pagamento.getIrrf());
+        pagamento.setSalarioLiquido(pagamento.getSalarioLiquido());
+        getPagamento();
+        setPagamento(pagamento);
+    }
+       
     public String cadastrar(){
+        CalcularFolhaPagamento();
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("sqlspu");
         EntityManager em = emf.createEntityManager();
         EntityTransaction etx = em.getTransaction();
@@ -39,59 +60,35 @@ public class FolhaPagamentoBeans {
         etx.commit();
         em.close();
         emf.close();
-        pagamento = pagamento;
-        return "FolhaPagamento";
+        return "folhaPagamentoSucesso";
         
     }
     
-    public Double calcularInss(){
-        double salarioBruto = pagamento.getSalarioBruto();
-        double inss = 0.0;
-        if (salarioBruto < 1751.82) {
-            inss = salarioBruto * 0.08;
-        } else if (salarioBruto > 1751.81 && salarioBruto < 2919.73) {
-            inss = salarioBruto * 0.09;
-        } else if (salarioBruto > 2919.72 && salarioBruto < 5839.46) {
-            inss = salarioBruto * 0.11;
-        } else if (salarioBruto > 5839.45) {
-            inss = 817.66;
-        }
-        pagamento.setInss(inss);
-        return inss;
+    public List<Folhapagamento> getPagamentos() {
+        List<Folhapagamento> pagamentos = null;
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("sqlspu");
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("SELECT f FROM Folhapagamento f", Folhapagamento.class);
+        pagamentos = q.getResultList();
+        return pagamentos;
     }
     
-    public Double calcularIrrf(){
-        double salarioBruto = pagamento.getSalarioBruto();
-        double salarioSInss = (pagamento.getInss()-salarioBruto);
-        double irrf = pagamento.getIrrf();
-        
-        if (salarioSInss < 1903.99) {
-            irrf = 0;
-        } else if (salarioSInss > 1903.98 && salarioSInss < 2826.66) {
-            irrf = (salarioSInss * 0.075) - 142.80;
-        } else if (salarioSInss > 2826.65 && salarioSInss < 3751.06) {
-            irrf = (salarioSInss * 0.15) - 354.8;
-        } else if (salarioSInss > 3751.05 && salarioSInss < 4664.69) {
-            irrf = (salarioSInss * 0.225) - 636.13;
-        } else if (salarioSInss > 4664.68) {
-            irrf = (salarioSInss * 0.275) - 869.36;
-        }
-        pagamento.setIrrf(irrf);
-        
-        return irrf;
-    
+    public void excluir(Folhapagamento pagamento){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("sqlspu");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction etx = em.getTransaction();
+        etx.begin();
+        pagamento = em.merge(pagamento);
+        em.remove(pagamento);
+        etx.commit();
+        em.close();
+        emf.close();
     }
     
-    public Double calcularSalario(){     
-        double salarioLiquido = 0.0;
-        
-        salarioLiquido = pagamento.getSalarioBruto() - (pagamento.getInss() + pagamento.getIrrf());
-       
-        pagamento.setSalarioLiquido(salarioLiquido);
-        
-        return salarioLiquido;
+    public String voltar(){
+        return "folhaPagamento";
     }
-
+    
     public Folhapagamento getPagamento() {
         return pagamento;
     }
@@ -99,6 +96,5 @@ public class FolhaPagamentoBeans {
     public void setPagamento(Folhapagamento pagamento) {
         this.pagamento = pagamento;
     }
-    
-    
+
 }

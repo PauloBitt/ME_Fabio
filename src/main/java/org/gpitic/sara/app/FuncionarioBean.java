@@ -133,7 +133,7 @@ public class FuncionarioBean {
         
     }
     
-    public void excluir(Funcionario funcionario){
+    public void excluir(FolhaPagamentoBeans funcionario){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("sqlspu");
         EntityManager em = emf.createEntityManager();
         EntityTransaction etx = em.getTransaction();

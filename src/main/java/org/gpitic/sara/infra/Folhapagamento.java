@@ -49,8 +49,9 @@ public class Folhapagamento implements Serializable {
     public Folhapagamento() {
     }
 
-    public Folhapagamento(Integer id) {
+    public Folhapagamento(Integer id, Double salarioBruto) {
         this.id = id;
+        this.salarioBruto = salarioBruto;
     }
 
     public Integer getId() {
@@ -92,6 +93,38 @@ public class Folhapagamento implements Serializable {
     public void setSalarioLiquido(Double salarioLiquido) {
         this.salarioLiquido = salarioLiquido;
     }
+    public void calcularInss(){
+        if(salarioBruto < 1751.82){
+            this.inss = salarioBruto * 0.08;
+        } else if(salarioBruto > 1751.81 && salarioBruto < 2919.73){
+            this.inss = salarioBruto * 0.09;
+        } else if(salarioBruto > 2919.72 && salarioBruto < 5839.46){
+            this.inss = salarioBruto * 0.11;
+        } else if (salarioBruto > 5839.45){
+            this.inss = 817.66;
+        }
+    }
+    
+     public void calcularIrrf(){
+        double salarioSInss = salarioBruto - this.getInss();
+        if(salarioSInss < 1903.99){
+            this.irrf = 0.0;
+        } else if(salarioSInss > 1903.98 && salarioSInss < 2826.66){
+            this.irrf = (salarioSInss * 0.075) - 142.80;
+        } else if(salarioSInss > 2826.65 && salarioSInss < 3751.06) {
+            this.irrf = (salarioSInss * 0.15) - 354.8;
+        } else if(salarioSInss > 3751.05 && salarioSInss < 4664.69){
+            this.irrf = (salarioSInss * 0.225) - 636.13;
+        } else if(salarioSInss > 4664.68){
+            this.irrf = (salarioSInss * 0.275) - 869.36;
+        }
+    }
+     
+     public void calcularSalarioLiquido(){
+        this.salarioLiquido = this.salarioBruto - (this.getIrrf() + this.getInss());
+    }
+     
+
 
     @Override
     public int hashCode() {
