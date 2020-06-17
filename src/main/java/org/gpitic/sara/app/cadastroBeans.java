@@ -22,8 +22,5 @@ public class cadastroBeans {
     public String consultarFuncionarios(){
         return "consultarFuncionarios";
     }
-    public String editarFuncionarios(){
-        return "editarFuncionario";
-    } 
     
 }
